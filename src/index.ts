@@ -1,3 +1,7 @@
+/**
+ * hfex-auto-externals-plugin
+ * @author UzumakiHan
+ */
 import { createUnplugin } from 'unplugin';
 import { Compiler } from 'webpack'
 import fs from 'fs'

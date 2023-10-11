@@ -31,7 +31,11 @@
       "types": "./types/vite.d.ts"
     }
   },
-  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:UzumakiHan/hfex-auto-externals-plugin.git"
+  },
+  "keywords": ["auto-externals"],
   "author": "UzumakiHan",
   "license": "ISC",
   "devDependencies": {
