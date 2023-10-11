@@ -49033,34 +49033,35 @@ function requireLayout () {
 	return Layout_1;
 }
 
-function ansiRegex({onlyFirst = false} = {}) {
-	const pattern = [
-	    '[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)',
-		'(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~]))'
-	].join('|');
+var ansiRegex;
+var hasRequiredAnsiRegex;
 
-	return new RegExp(pattern, onlyFirst ? undefined : 'g');
+function requireAnsiRegex () {
+	if (hasRequiredAnsiRegex) return ansiRegex;
+	hasRequiredAnsiRegex = 1;
+
+	ansiRegex = ({onlyFirst = false} = {}) => {
+		const pattern = [
+			'[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)',
+			'(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-ntqry=><~]))'
+		].join('|');
+
+		return new RegExp(pattern, onlyFirst ? undefined : 'g');
+	};
+	return ansiRegex;
 }
 
-const regex = ansiRegex();
+var stripAnsi;
+var hasRequiredStripAnsi;
 
-function stripAnsi(string) {
-	if (typeof string !== 'string') {
-		throw new TypeError(`Expected a \`string\`, got \`${typeof string}\``);
-	}
+function requireStripAnsi () {
+	if (hasRequiredStripAnsi) return stripAnsi;
+	hasRequiredStripAnsi = 1;
+	const ansiRegex = requireAnsiRegex();
 
-	// Even though the regex is global, we don't need to reset the `.lastIndex`
-	// because unlike `.exec()` and `.test()`, `.replace()` does it automatically
-	// and doing it manually has a performance penalty.
-	return string.replace(regex, '');
+	stripAnsi = string => typeof string === 'string' ? string.replace(ansiRegex(), '') : string;
+	return stripAnsi;
 }
-
-var stripAnsi$1 = /*#__PURE__*/Object.freeze({
-  __proto__: null,
-  default: stripAnsi
-});
-
-var require$$7 = /*@__PURE__*/getAugmentedNamespace(stripAnsi$1);
 
 var RenderKid_1;
 var hasRequiredRenderKid;
@@ -49088,7 +49089,7 @@ function requireRenderKid () {
 	Styles = requireStyles();
 	Layout = requireLayout();
 	tools = requireTools();
-	stripAnsi = require$$7;
+	stripAnsi = requireStripAnsi();
 	terminalWidth = requireTools().getCols();
 
 	RenderKid_1 = function () {
