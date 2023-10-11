@@ -31,6 +31,11 @@ interface IPackageInfo {
     exposedField: string;
 
 }
+interface IExternalsConfig{
+    name:string;
+    exposedField:string;
+    packageLink:string;
+}
 function checkExternalConfiguration() {
     const modPath = path.join(process.cwd(),
         'node_modules/hfex-external-configuration');
@@ -58,7 +63,7 @@ function resolveExternalList() {
     if (!packageVerList || packageVerList.length <= 0) {
         return [];
     }
-    const externalList: Array<IExternalItem> = [];
+    const externalList: Array<IExternalsConfig> = [];
     const pkgDependencies: Array<[string, string]> = Object.entries(pkgInfo.dependencies)
     pkgDependencies.forEach(([name, ver]) => {
         const dependence = packageVerList.find((v: IExternalItem) => {
@@ -70,7 +75,7 @@ function resolveExternalList() {
         const verItem = dependence.packageInfo.find((v: IPackageInfo) => ver === v.version);
         if (verItem && verItem.packageLink && verItem.exposedField) {
             externalList.push({
-                ...dependence,
+               name:verItem.name,
                 packageLink: verItem.packageLink,
                 exposedField: verItem.exposedField
             });
@@ -78,20 +83,29 @@ function resolveExternalList() {
     });
     return externalList
 }
+
+interface IPluginOptions{
+    externalsConfig?:Array<IExternalsConfig>
+}
+
 export function HfexAutoExternalsPlugin() {
-    checkExternalConfiguration();
-    return createUnplugin(() => {
+    return createUnplugin((options={}) => {
+        const configOption = options as IPluginOptions
+        if(configOption.externalsConfig === undefined){
+            checkExternalConfiguration()
+        }
         return {
             name: PLUGIN_NAME,
             enforce: 'post',
+          
             webpack(compiler: Compiler) {
+               
                 const envMode = compiler.options.mode
                 if (envMode === 'production') {
                     const autoExternals: any = {}
-                    const externalsList = resolveExternalList()
-
+                    const externalsList =configOption?.externalsConfig|| resolveExternalList()
                     let jsExternalsScript = ''
-                    externalsList.forEach(pck => {
+                    externalsList.forEach((pck:IExternalsConfig) => {
                         autoExternals[pck.name] = pck.exposedField
                         jsExternalsScript += `<script crossorigin="anonymous" src="${pck.packageLink}"></script>\n\r  `
 
