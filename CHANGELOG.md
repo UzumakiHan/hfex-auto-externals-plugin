@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/UzumakiHan/hfex-auto-externals-plugin/compare/v1.0.2...v1.0.3) (2023-10-11)
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* externals列表可作为参数传入 ([8e3a4c6](https://github.com/UzumakiHan/hfex-auto-externals-plugin/commit/8e3a4c64258d03465f7b769ca46a3e0cc7a82969))
+
 ## [1.0.2](https://github.com/UzumakiHan/hfex-auto-externals-plugin/compare/v1.0.1...v1.0.2) (2023-10-11)
 
 
