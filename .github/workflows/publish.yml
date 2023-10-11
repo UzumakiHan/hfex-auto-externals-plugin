@@ -13,16 +13,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 7
+      # - name: Install pnpm
+      #   uses: pnpm/action-setup@v2
+      #   with:
+      #     version: 7
 
       - name: Set node
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: pnpm
+          # cache: pnpm
 
       # install
       - name: Install dependencies
@@ -35,15 +35,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 7
+      # - name: Install pnpm
+      #   uses: pnpm/action-setup@v2
+      #   with:
+      #     version: 7
           
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: pnpm
+          # cache: pnpm
           registry-url: https://registry.npmjs.org/
 
       - run: npm install
