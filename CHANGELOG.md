@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.0.2](https://github.com/UzumakiHan/hfex-auto-externals-plugin/compare/v1.0.1...v1.0.2) (2023-10-11)
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* mode production ([b89aa11](https://github.com/UzumakiHan/hfex-auto-externals-plugin/commit/b89aa11dcf61104af522c4363e0274d2da20571c))
+* package.json main ([08e51fe](https://github.com/UzumakiHan/hfex-auto-externals-plugin/commit/08e51febe6a3fcef4a66c1b6184ad8f66564fd9c))
+* package.json main ([b51f601](https://github.com/UzumakiHan/hfex-auto-externals-plugin/commit/b51f60160ae5631d3b87076da7e58092dd8d8d21))
+* webpack中使用require引入html-webpack-plugin ([80d193d](https://github.com/UzumakiHan/hfex-auto-externals-plugin/commit/80d193d25be114448fa7daf9467d764df8f4a4a7))
+
+
+### 👷‍ Build System | 构建
+
+* Update build dist ([cd6d2f8](https://github.com/UzumakiHan/hfex-auto-externals-plugin/commit/cd6d2f89335ba2d7acf364cb57f49d880b7d953a))
+
 ## [1.0.1](https://github.com/UzumakiHan/hfex-auto-externals-plugin/compare/v1.0.0...v1.0.1) (2023-10-11)
 
 

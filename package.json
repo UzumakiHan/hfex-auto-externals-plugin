@@ -1,6 +1,6 @@
 {
   "name": "hfex-auto-externals-plugin",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "dist/webpack/index.cjs",
   "module": "dist/webpack/index.mjs",
@@ -35,7 +35,9 @@
     "type": "git",
     "url": "git@github.com:UzumakiHan/hfex-auto-externals-plugin.git"
   },
-  "keywords": ["auto-externals"],
+  "keywords": [
+    "auto-externals"
+  ],
   "author": "UzumakiHan",
   "license": "ISC",
   "devDependencies": {
