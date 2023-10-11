@@ -82,7 +82,7 @@ export function HfexAutoExternalsPlugin() {
             enforce: 'post',
             webpack(compiler: Compiler) {
                 const envMode = compiler.options.mode
-                if (envMode !== 'production') {
+                if (envMode === 'production') {
                     const autoExternals: any = {}
                     const externalsList = resolveExternalList()
 
