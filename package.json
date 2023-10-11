@@ -1,0 +1,59 @@
+{
+  "name": "hfex-auto-externals-plugin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/webpack/index.cjs",
+  "module": "dist/webpack/index.mjs",
+  "scripts": {
+    "clean": "rimraf ./dist",
+    "build": "npm run clean && npm run build:webpack && npm run build:vite",
+    "build:webpack": "rollup -c rollup.webpack.config.mjs --bundleConfigAsCjs",
+    "build:vite": "rollup -c rollup.vite.config.mjs --bundleConfigAsCjs"
+  },
+  "files": [
+    "dist",
+    "package.json",
+  ],
+  "exports": {
+    ".": {
+      "require": "./dist/webpack/index.cjs",
+      "import": "./dist/webpack/index.mjs",
+      "types": "./dist/webpack/index.d.ts"
+    },
+    "./webpack": {
+      "require": "./dist/webpack/index.cjs",
+      "import": "./dist/webpack/index.mjs",
+      "types": "./dist/webpack/index.d.ts"
+    },
+    "./vite": {
+      "require": "./dist/vite/index.cjs",
+      "import": "./dist/vite.index.mjs",
+      "types": "./types/vite.d.ts"
+    }
+  },
+  "keywords": [],
+  "author": "UzumakiHan",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.21.8",
+    "@babel/preset-env": "^7.22.20",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-commonjs": "^25.0.5",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.2",
+    "@rollup/plugin-terser": "^0.4.3",
+    "@types/node": "^20.7.1",
+    "@types/shelljs": "^0.8.13",
+    "chalk": "^5.3.0",
+    "core-js": "^3.33.0",
+    "html-webpack-plugin": "^5.5.3",
+    "rimraf": "^5.0.5",
+    "rollup": "^3.23.0",
+    "rollup-plugin-dts": "^6.1.0",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "shelljs": "^0.8.5",
+    "typescript": "^5.2.2",
+    "unplugin": "^1.5.0",
+    "webpack": "^5.88.2"
+  }
+}

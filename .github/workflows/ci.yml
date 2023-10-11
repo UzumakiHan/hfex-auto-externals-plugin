@@ -1,0 +1,103 @@
+# 整个流程的名字
+name: Package CI
+
+# 触发时机，在 main 分支 push 操作触发
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - README.md
+      - .gitignore
+      - .npmignore
+      
+  pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - README.md
+      - .gitignore
+      - .npmignore
+
+permissions:
+  contents: write
+  pull-requests: write
+
+# 任务
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+          
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+
+      - name: Set node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: pnpm
+
+      # install
+      - name: Install dependencies
+        run: |
+           pnpm install
+      - name: Build
+        run: npm run build
+                    
+      - name: Commit Changes
+        run: |
+            git config --local user.email "1750263786@qq.com"
+            git config --local user.name "UzumakiHan"
+            git add .
+            git commit -m "build: Update build dist" -a || true
+
+      # - name: Git pull
+      #   run: git pull --rebase
+      
+      - name: Push Changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.ACCESS_TOKEN }}
+          branch: ${{ github.head_ref }}
+          
+  CIRUN:
+    needs: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+
+      - name: Set node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: pnpm
+
+      # install
+      - name: Install dependencies
+        run: |
+           pnpm install
+      - uses: google-github-actions/release-please-action@v3
+        id: release
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          release-type: node
+          package-name: release-please-action
+          changelog-types: '[{"type": "chore", "section":"🎫 Chores | 其他更新", "hidden": false},{"type": "revert", "section":"⏪ Reverts | 回退", "hidden": false},{"type": "feat", "section": "✨ Features | 新功能", "hidden": false},{"type": "fix", "section": "🐛 Bug Fixes | Bug 修复", "hidden": false},{"type": "improvement", "section": "Feature Improvements", "hidden": false},{"type": "docs", "section":"📝 Documentation | 文档", "hidden": false},{"type": "style", "section":"💄 Styles | 风格", "hidden": false},{"type": "refactor", "section":"💄 Styles | 风格", "hidden": false},{"type": "perf", "section":"⚡ Performance Improvements | 性能优化", "hidden": false},{"type": "test", "section":"✅ Tests | 测试", "hidden": false},{"type": "build", "section":"👷‍ Build System | 构建", "hidden": false},{"type": "ci", "section":"🔧 Continuous Integration | CI 配置", "hidden":false}]' 
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+ 
+      
+        
