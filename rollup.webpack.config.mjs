@@ -27,6 +27,6 @@ export default{
         }),
         json(),
         tsPlugin(),
-        // terser(),
+        terser(),
     ]
 }
