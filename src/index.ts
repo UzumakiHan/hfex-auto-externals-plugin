@@ -1,11 +1,15 @@
 import { createUnplugin } from 'unplugin';
-import HtmlWebpackPlugin from 'html-webpack-plugin'
 import { Compiler } from 'webpack'
 import fs from 'fs'
 import path from 'path';
-// import shelljs from 'shelljs';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 const PLUGIN_NAME = 'hfex-auto-externals-plugin';
+interface IPlugin{
+    html: string,
+    outputName: string,
+    plugin: HtmlWebpackPlugin,
+}
 interface IExternalItem {
     version: Array<string>; // 版本列表
     name: string; // 依赖包名
@@ -30,12 +34,12 @@ function checkExternalConfiguration() {
     const cliCommand = fs.existsSync(pnpmLockPath) ? 'npx pnpm add' : 'npm install';
     if (!fs.existsSync(modPath)) {
         console.info(
-            `${(`${PLUGIN_NAME} ⬇️ 检测到未安装hfex-external-configuration，正在自动安装...`)}`
+            `[externals-plugin] ⬇️ 检测到未安装hfex-external-configuration，正在自动安装...`
         );
-        // shelljs.exec(`${cliCommand} hfex-external-configuration --save-dev`, {
-        //     cwd: process.cwd(),
-        //     silent: true
-        // });
+        require('shelljs').exec(`${cliCommand} hfex-external-configuration --save-dev`, {
+            cwd: process.cwd(),
+            silent: true
+        });
     }
 }
 function resolveExternalList() {
@@ -88,12 +92,10 @@ export function HfexAutoExternalsPlugin() {
                         jsExternalsScript += `<script crossorigin="anonymous" src="${pck.packageLink}"></script>\n\r  `
 
                     })
-
                     compiler.options.externals = Object.assign({}, compiler.options.externals || {}, autoExternals)
                     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
-                        HtmlWebpackPlugin.getHooks(compilation).beforeEmit.tapAsync(PLUGIN_NAME, (htmlPluginData, callback) => {
+                        require('html-webpack-plugin').getHooks(compilation).beforeEmit.tapAsync(PLUGIN_NAME, (htmlPluginData:IPlugin, callback:Function) => {
                             htmlPluginData.html = htmlPluginData.html.replace(/<body>([.\n\r\s\S]*?)(<script|<\/body)/g, `<body>$1${jsExternalsScript}$2`)
-                            console.log(htmlPluginData.html)
                             callback();
                         })
                     })
