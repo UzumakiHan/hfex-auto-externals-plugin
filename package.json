@@ -6,7 +6,7 @@
   "module": "dist/webpack/index.mjs",
   "scripts": {
     "clean": "rimraf ./dist",
-    "build": "npm run clean && npm run build:webpack && npm run build:vite",
+    "build": "npm run clean && npm run build:webpack",
     "build:webpack": "rollup -c rollup.webpack.config.mjs --bundleConfigAsCjs",
     "build:vite": "rollup -c rollup.vite.config.mjs --bundleConfigAsCjs"
   },
