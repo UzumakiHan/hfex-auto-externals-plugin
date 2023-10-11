@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.1](https://github.com/UzumakiHan/hfex-auto-externals-plugin/compare/v1.0.0...v1.0.1) (2023-10-11)
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* github action ([9299715](https://github.com/UzumakiHan/hfex-auto-externals-plugin/commit/9299715eb7946ca4484845a1561e60d96ee7df2e))
+* 使用npm进行依赖安装 ([1328de0](https://github.com/UzumakiHan/hfex-auto-externals-plugin/commit/1328de0414768f6cc8a41ccf6d164ad218375f07))
+
 ## 1.0.0 (2023-10-11)
 
 
