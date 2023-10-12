@@ -1,6 +1,6 @@
 {
   "name": "hfex-auto-externals-plugin",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "main": "dist/webpack/index.cjs",
   "module": "dist/webpack/index.mjs",
@@ -36,7 +36,11 @@
     "url": "git@github.com:UzumakiHan/hfex-auto-externals-plugin.git"
   },
   "keywords": [
-    "auto-externals","webpack","unplugin","rollup","vue"
+    "auto-externals",
+    "webpack",
+    "unplugin",
+    "rollup",
+    "vue"
   ],
   "author": "UzumakiHan",
   "license": "ISC",
