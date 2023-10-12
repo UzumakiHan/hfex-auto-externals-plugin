@@ -23,7 +23,6 @@ export default{
         }),
         commonjs({
             ignoreDynamicRequires: true
-            // dynamicRequireTargets: ['./src/cat']
         }),
         json(),
         tsPlugin(),
@@ -31,7 +30,6 @@ export default{
             format:{
                 comments: false, beautify: false, ascii_only: true
             }
-           
-        }),
+        })
     ]
 }

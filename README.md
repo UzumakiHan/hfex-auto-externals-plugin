@@ -5,7 +5,7 @@
 
 auto externals plugin,Plugins encapsulated using [unplugin](https://github.com/unjs/unplugin) and [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin)
 
-html-webpack-plugin has introduced the getHooks method since version 4.0, so the HTML webpack plugin version used in your project must be at least 4.0
+html-webpack-plugin has introduced the getHooks method since version 4.0, so the html-webpack-plugin version used in your project must be at least 4.0
 
 Currently supports:
 - [Webpack](https://webpack.js.org/)
