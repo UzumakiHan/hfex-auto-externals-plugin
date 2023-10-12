@@ -27,6 +27,11 @@ export default{
         }),
         json(),
         tsPlugin(),
-        terser(),
+        terser({
+            format:{
+                comments: false, beautify: false, ascii_only: true
+            }
+           
+        }),
     ]
 }

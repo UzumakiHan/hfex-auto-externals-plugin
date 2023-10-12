@@ -8,11 +8,12 @@ import fs from 'fs'
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 
+
 const PLUGIN_NAME = 'hfex-auto-externals-plugin';
-interface IPlugin{
-    html: string,
-    outputName: string,
-    plugin: HtmlWebpackPlugin,
+interface IPlugin {
+    html: string;
+    outputName: string;
+    plugin: HtmlWebpackPlugin
 }
 interface IExternalItem {
     version: Array<string>; // 版本列表
@@ -31,10 +32,10 @@ interface IPackageInfo {
     exposedField: string;
 
 }
-interface IExternalsConfig{
-    name:string;
-    exposedField:string;
-    packageLink:string;
+interface IExternalsConfig {
+    name: string;
+    exposedField: string;
+    packageLink: string;
 }
 function checkExternalConfiguration() {
     const modPath = path.join(process.cwd(),
@@ -74,8 +75,9 @@ function resolveExternalList() {
         }
         const verItem = dependence.packageInfo.find((v: IPackageInfo) => ver === v.version);
         if (verItem && verItem.packageLink && verItem.exposedField) {
+            
             externalList.push({
-               name:verItem.name,
+                name,
                 packageLink: verItem.packageLink,
                 exposedField: verItem.exposedField
             });
@@ -84,35 +86,36 @@ function resolveExternalList() {
     return externalList
 }
 
-interface IPluginOptions{
-    externalsConfig?:Array<IExternalsConfig>
+interface IPluginOptions {
+    externalsConfig?: Array<IExternalsConfig>;
+    engineeringFlag?: Boolean;
 }
 
 export function HfexAutoExternalsPlugin() {
-    return createUnplugin((options={}) => {
+    return createUnplugin((options = {}) => {
         const configOption = options as IPluginOptions
-        if(configOption.externalsConfig === undefined){
+        if (configOption?.engineeringFlag) {
             checkExternalConfiguration()
         }
         return {
             name: PLUGIN_NAME,
             enforce: 'post',
-          
+
             webpack(compiler: Compiler) {
-               
+
                 const envMode = compiler.options.mode
                 if (envMode === 'production') {
                     const autoExternals: any = {}
-                    const externalsList =configOption?.externalsConfig|| resolveExternalList()
+                    const externalsList = configOption?.engineeringFlag ? resolveExternalList() : configOption?.externalsConfig || []
                     let jsExternalsScript = ''
-                    externalsList.forEach((pck:IExternalsConfig) => {
+                    externalsList.forEach((pck: IExternalsConfig) => {
                         autoExternals[pck.name] = pck.exposedField
                         jsExternalsScript += `<script crossorigin="anonymous" src="${pck.packageLink}"></script>\n\r  `
 
                     })
                     compiler.options.externals = Object.assign({}, compiler.options.externals || {}, autoExternals)
                     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
-                        require('html-webpack-plugin').getHooks(compilation).beforeEmit.tapAsync(PLUGIN_NAME, (htmlPluginData:IPlugin, callback:Function) => {
+                        require('html-webpack-plugin').getHooks(compilation).beforeEmit.tapAsync(PLUGIN_NAME, (htmlPluginData: IPlugin, callback: Function) => {
                             htmlPluginData.html = htmlPluginData.html.replace(/<body>([.\n\r\s\S]*?)(<script|<\/body)/g, `<body>$1${jsExternalsScript}$2`)
                             callback();
                         })
