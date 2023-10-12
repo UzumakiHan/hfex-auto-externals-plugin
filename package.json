@@ -1,6 +1,6 @@
 {
   "name": "hfex-auto-externals-plugin",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "dist/webpack/index.cjs",
   "module": "dist/webpack/index.mjs",
