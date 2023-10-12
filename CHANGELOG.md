@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.4](https://github.com/UzumakiHan/hfex-auto-externals-plugin/compare/v1.0.3...v1.0.4) (2023-10-12)
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 配置参数优化 ([379176b](https://github.com/UzumakiHan/hfex-auto-externals-plugin/commit/379176b160b6cc660c0a9f22173612699b8c99c4))
+
+
+### 👷‍ Build System | 构建
+
+* Update build dist ([d3c075f](https://github.com/UzumakiHan/hfex-auto-externals-plugin/commit/d3c075f38d0dbc1d5453738942744be06070f2cb))
+
 ## [1.0.3](https://github.com/UzumakiHan/hfex-auto-externals-plugin/compare/v1.0.2...v1.0.3) (2023-10-11)
 
 
