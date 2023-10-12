@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.5](https://github.com/UzumakiHan/hfex-auto-externals-plugin/compare/v1.0.4...v1.0.5) (2023-10-12)
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* package.json keywords ([8de93db](https://github.com/UzumakiHan/hfex-auto-externals-plugin/commit/8de93db3a9f64e9aabc7ff7966dacd25f95f5776))
+
 ## [1.0.4](https://github.com/UzumakiHan/hfex-auto-externals-plugin/compare/v1.0.3...v1.0.4) (2023-10-12)
 
 
