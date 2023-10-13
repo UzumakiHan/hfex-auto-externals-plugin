@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.6](https://github.com/UzumakiHan/hfex-auto-externals-plugin/compare/v1.0.5...v1.0.6) (2023-10-13)
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 添加vite插件功能 ([83b1bd0](https://github.com/UzumakiHan/hfex-auto-externals-plugin/commit/83b1bd08a99e6a35b4a1bd52aceda5861a8f118e))
+
 ## [1.0.5](https://github.com/UzumakiHan/hfex-auto-externals-plugin/compare/v1.0.4...v1.0.5) (2023-10-12)
 
 
