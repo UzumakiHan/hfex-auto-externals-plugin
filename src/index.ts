@@ -4,11 +4,12 @@
  */
 import { createUnplugin } from 'unplugin';
 import { Compiler } from 'webpack'
+import { Plugin } from 'vite'
+
 import fs from 'fs'
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-
-
+import { viteExternalsPlugin } from 'vite-plugin-externals'
 const PLUGIN_NAME = 'hfex-auto-externals-plugin';
 interface IPlugin {
     html: string;
@@ -37,6 +38,42 @@ interface IExternalsConfig {
     exposedField: string;
     packageLink: string;
 }
+
+interface IPluginOptions {
+    externalsConfig?: Array<IExternalsConfig>;
+    engineeringFlag?: Boolean;
+}
+const getPackageJsonInfo = (pkgName: string, cwd = process.cwd()) => {
+    let pkgDir, packageJsonPath;
+    try {
+        pkgDir = require.resolve(pkgName, {
+            paths: [cwd]
+        });
+    } catch (err) {
+        console.error(err);
+    }
+    if (!pkgDir) {
+        return null;
+    }
+    pkgDir = path.dirname(pkgDir);
+    let oldPkgDir = pkgDir;
+    while (true) {
+        packageJsonPath = path.join(pkgDir, 'package.json');
+        if (fs.existsSync(packageJsonPath)) {
+            break;
+        }
+        oldPkgDir = pkgDir;
+        pkgDir = path.dirname(pkgDir);
+        if (pkgDir === oldPkgDir) {
+            packageJsonPath = undefined;
+            break;
+        }
+    }
+    if (!packageJsonPath) {
+        return null;
+    }
+    return path.dirname(packageJsonPath);
+};
 function checkExternalConfiguration() {
     const modPath = path.join(process.cwd(),
         'node_modules/hfex-external-configuration');
@@ -86,21 +123,40 @@ function resolveExternalList() {
     return externalList
 }
 
-interface IPluginOptions {
-    externalsConfig?: Array<IExternalsConfig>;
-    engineeringFlag?: Boolean;
+ function handleJudgeViteOrWebpack(){
+    // const packageJsonPath = await findUp('package.json');
+    const packageJsonPath =path.join(process.cwd(), 'package.json')
+    
+    
+    if (!packageJsonPath) {
+        return false
+    }
+    const devDependencies = require(packageJsonPath).devDependencies;
+    return devDependencies.vite
 }
-
 export function HfexAutoExternalsPlugin() {
     return createUnplugin((options = {}) => {
         const configOption = options as IPluginOptions
+        let viteExternalsPluginConfig={} as any;
+        let viteJsExternalsScript=''
+        let viteExternalsPluginFn  = {} as Plugin
+        const isVite = handleJudgeViteOrWebpack();
+        if(isVite){
+            configOption.externalsConfig?.forEach((pck: IExternalsConfig)=>{
+                viteExternalsPluginConfig[pck.name] = pck.exposedField
+                viteJsExternalsScript += `<script crossorigin="anonymous" src="${pck.packageLink}"></script>\n\r  `
+            })
+            viteExternalsPluginFn = viteExternalsPlugin({...viteExternalsPluginConfig})
+        }
+      
+      
         if (configOption?.engineeringFlag) {
             checkExternalConfiguration()
         }
         return {
             name: PLUGIN_NAME,
             enforce: 'post',
-
+            apply: 'build',
             webpack(compiler: Compiler) {
 
                 const envMode = compiler.options.mode
@@ -111,7 +167,6 @@ export function HfexAutoExternalsPlugin() {
                     externalsList.forEach((pck: IExternalsConfig) => {
                         autoExternals[pck.name] = pck.exposedField
                         jsExternalsScript += `<script crossorigin="anonymous" src="${pck.packageLink}"></script>\n\r  `
-
                     })
                     compiler.options.externals = Object.assign({}, compiler.options.externals || {}, autoExternals)
                     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
@@ -121,9 +176,16 @@ export function HfexAutoExternalsPlugin() {
                         })
                     })
                 }
-
-
-
+            },
+            vite:{
+                config: viteExternalsPluginFn.config,
+                transform: viteExternalsPluginFn.transform,
+                transformIndexHtml: {
+                    enforce: 'post',
+                    transform(html) {
+                      return html.replace(/<body>([.\n\r\s\S]*?)(<script|<\/body)/g, `<body>$1${viteJsExternalsScript}$2`)
+                    }
+                  }
             }
         }
     })
