@@ -6,13 +6,15 @@
   "module": "dist/webpack/index.mjs",
   "scripts": {
     "clean": "rimraf ./dist",
-    "build": "npm run clean && npm run build:webpack",
+    "build": "npm run clean && npm run build:webpack && npm run build:vite",
     "build:webpack": "rollup -c rollup.webpack.config.mjs --bundleConfigAsCjs",
     "build:vite": "rollup -c rollup.vite.config.mjs --bundleConfigAsCjs"
   },
   "files": [
     "dist",
-    "package.json"
+    "package.json",
+    "README1.md",
+    "License"
   ],
   "exports": {
     ".": {
@@ -28,7 +30,7 @@
     "./vite": {
       "require": "./dist/vite/index.cjs",
       "import": "./dist/vite.index.mjs",
-      "types": "./types/vite.d.ts"
+      "types": "./dist/vite/index.d.ts"
     }
   },
   "repository": {
@@ -40,7 +42,9 @@
     "webpack",
     "unplugin",
     "rollup",
-    "vue"
+    "vue",
+    "vite",
+    "vite-plugin-externals"
   ],
   "author": "UzumakiHan",
   "license": "ISC",
@@ -64,6 +68,8 @@
     "shelljs": "^0.8.5",
     "typescript": "^5.2.2",
     "unplugin": "^1.5.0",
+    "vite": "^4.4.11",
+    "vite-plugin-externals": "^0.6.2",
     "webpack": "^5.88.2"
   }
 }
