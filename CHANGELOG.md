@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.7](https://github.com/UzumakiHan/hfex-auto-externals-plugin/compare/v1.0.6...v1.0.7) (2023-10-13)
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* remove code ([f8f024e](https://github.com/UzumakiHan/hfex-auto-externals-plugin/commit/f8f024e166ce7a6a4064c8a23dc325c5a7eee348))
+
 ## [1.0.6](https://github.com/UzumakiHan/hfex-auto-externals-plugin/compare/v1.0.5...v1.0.6) (2023-10-13)
 
 
