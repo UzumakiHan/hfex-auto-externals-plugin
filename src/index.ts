@@ -5,7 +5,6 @@
 import { createUnplugin } from 'unplugin';
 import { Compiler } from 'webpack'
 import { Plugin } from 'vite'
-
 import fs from 'fs'
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -43,37 +42,7 @@ interface IPluginOptions {
     externalsConfig?: Array<IExternalsConfig>;
     engineeringFlag?: Boolean;
 }
-const getPackageJsonInfo = (pkgName: string, cwd = process.cwd()) => {
-    let pkgDir, packageJsonPath;
-    try {
-        pkgDir = require.resolve(pkgName, {
-            paths: [cwd]
-        });
-    } catch (err) {
-        console.error(err);
-    }
-    if (!pkgDir) {
-        return null;
-    }
-    pkgDir = path.dirname(pkgDir);
-    let oldPkgDir = pkgDir;
-    while (true) {
-        packageJsonPath = path.join(pkgDir, 'package.json');
-        if (fs.existsSync(packageJsonPath)) {
-            break;
-        }
-        oldPkgDir = pkgDir;
-        pkgDir = path.dirname(pkgDir);
-        if (pkgDir === oldPkgDir) {
-            packageJsonPath = undefined;
-            break;
-        }
-    }
-    if (!packageJsonPath) {
-        return null;
-    }
-    return path.dirname(packageJsonPath);
-};
+
 function checkExternalConfiguration() {
     const modPath = path.join(process.cwd(),
         'node_modules/hfex-external-configuration');
@@ -124,10 +93,7 @@ function resolveExternalList() {
 }
 
  function handleJudgeViteOrWebpack(){
-    // const packageJsonPath = await findUp('package.json');
     const packageJsonPath =path.join(process.cwd(), 'package.json')
-    
-    
     if (!packageJsonPath) {
         return false
     }
@@ -148,8 +114,6 @@ export function HfexAutoExternalsPlugin() {
             })
             viteExternalsPluginFn = viteExternalsPlugin({...viteExternalsPluginConfig})
         }
-      
-      
         if (configOption?.engineeringFlag) {
             checkExternalConfiguration()
         }

@@ -1,6 +1,6 @@
 # hfex-auto-externals-plugin
 
-[英文文档](README)
+[英文文档](README.md)
 
 <a href="https://www.npmjs.com/package/hfex-auto-externals-plugin"><img src="https://img.shields.io/npm/v/hfex-auto-externals-plugin" alt="NPM version"></a>
 <a href="https://www.npmjs.com/package/hfex-auto-externals-plugin"><img src="https://img.shields.io/npm/dt/hfex-auto-externals-plugin" alt="NPM download"></a>

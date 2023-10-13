@@ -12,9 +12,7 @@
   },
   "files": [
     "dist",
-    "package.json",
-    "README1.md",
-    "License"
+    "package.json"
   ],
   "exports": {
     ".": {
